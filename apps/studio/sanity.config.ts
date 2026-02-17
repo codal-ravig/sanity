@@ -5,6 +5,7 @@ import {schemaTypes} from './schemaTypes'
 import { structure } from './structure/index';
 import { defaultDocumentNode } from './structure/defaultDocumentNode';
 import { media } from 'sanity-plugin-media';
+import { fieldLevelExperiments } from '@sanity/personalization-plugin';
 
 export default defineConfig({
   name: 'default',
@@ -13,7 +14,27 @@ export default defineConfig({
   projectId: 'bgkp6123',
   dataset: 'production',
 
-  plugins: [structureTool({structure, defaultDocumentNode}), visionTool(), media()],
+  plugins: [structureTool({structure, defaultDocumentNode}), visionTool(), media(),fieldLevelExperiments({
+      // field types that you want to be able to emperiment on
+      fields: ['string'], 
+      // hardcoded experiments and variants
+      experiments: [
+        {
+          id: 'event-name',
+          label: 'Event Name',
+          variants: [
+            {
+              id: 'control',
+              label: 'Control',
+            },
+            {
+              id: 'variant',
+              label: 'Variant',
+            },
+          ],
+        },
+      ],
+     })],
 
   studio: {},
 

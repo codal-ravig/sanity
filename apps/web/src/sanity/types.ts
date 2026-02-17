@@ -42,7 +42,9 @@ export type Event = {
   _rev: string;
   name?: string;
   slug?: Slug;
-  eventType?: string;
+  newName?: ExperimentString;
+  eventType?: "in-person" | "virtual";
+  format?: "in-person" | "virtual";
   date?: string;
   doorsOpen?: number;
   venue?: VenueReference;
@@ -73,6 +75,7 @@ export type Event = {
     _key: string;
   }>;
   tickets?: string;
+  firstPublished?: string;
 };
 
 export type SanityImageCrop = {
@@ -119,10 +122,38 @@ export type Venue = {
   country?: string;
 };
 
+export type ExperimentString = {
+  _type: "experimentString";
+  default?: string;
+  active?: boolean;
+  experimentId?: string;
+  variants?: Array<
+    {
+      _key: string;
+    } & VariantString
+  >;
+};
+
 export type Slug = {
   _type: "slug";
   current?: string;
   source?: string;
+};
+
+export type VariantString = {
+  _type: "variantString";
+  variantId?: string;
+  experimentId?: string;
+  value?: string;
+};
+
+export type MediaTag = {
+  _id: string;
+  _type: "media.tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -231,7 +262,10 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Artist
   | Venue
+  | ExperimentString
   | Slug
+  | VariantString
+  | MediaTag
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -254,7 +288,9 @@ export type EVENT_QUERY_RESULT = {
   _rev: string;
   name?: string;
   slug?: Slug;
-  eventType?: string;
+  newName?: ExperimentString;
+  eventType?: "in-person" | "virtual";
+  format?: "in-person" | "virtual";
   date: string | string;
   doorsOpen: number | 0;
   venue: {
@@ -309,6 +345,7 @@ export type EVENT_QUERY_RESULT = {
     _key: string;
   }>;
   tickets?: string;
+  firstPublished?: string;
 } | null;
 
 // Source: ../web/src/app/page.tsx

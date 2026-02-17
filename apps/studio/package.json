@@ -20,6 +20,7 @@
   "dependencies": {
     "@sanity/client": "^7.14.1",
     "@sanity/icons": "^3.7.4",
+    "@sanity/personalization-plugin": "^2.5.0",
     "@sanity/ui": "^2.16.22",
     "@sanity/vision": "^5.9.0",
     "react": "^19.1",

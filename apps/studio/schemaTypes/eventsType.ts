@@ -1,6 +1,6 @@
 import {CalendarIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
-import { DoorsOpenInput } from './components/DoorsOpenInput'
+import {DoorsOpenInput} from './components/DoorsOpenInput'
 
 export const eventType = defineType({
   name: 'event',
@@ -21,24 +21,43 @@ export const eventType = defineType({
       validation: (rule) => rule.required().error(`Required to generate a page on the website`),
       hidden: ({document}) => !document?.name,
       readOnly: ({value, currentUser}) => {
-    // Anyone can set the initial slug
-    if (!value) {
-      return false
-    } 
-    console.log(currentUser)
-    const isAdmin = currentUser?.roles.some((role) => role.name === 'administrator')
+        // Anyone can set the initial slug
+        if (!value) {
+          return false
+        }
+        console.log(currentUser)
+        const isAdmin = currentUser?.roles.some((role) => role.name === 'administrator')
 
-    // Only admins can change the slug
-    return !isAdmin
-  },
+        // Only admins can change the slug
+        return !isAdmin
+      },
     }),
     defineField({
+      name: 'newName',
+      type: 'experimentString',
+      // group: ['editorial', 'details'],
+    }),
+    defineField({
+      hidden: true,
       name: 'eventType',
       type: 'string',
       options: {
         list: ['in-person', 'virtual'],
         layout: 'radio',
       },
+      deprecated: {
+        reason: 'Use the "Event format" field instead.',
+      },
+      readOnly: true,
+    }),
+    defineField({
+      name: 'format',
+      type: 'string',
+      options: {
+        list: ['in-person', 'virtual'],
+        layout: 'radio',
+      },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'date',
